@@ -1,6 +1,6 @@
 // Carry lookahead adder
 
-module carry_look_ahead_adder #(parameter BITS=32)(
+module carryLookAheadAdder #(parameter BITS=32)(
 	input [BITS-1:0] summand1_32_bits,
 	input [BITS-1:0] summand2_32_bits,
 	output [BITS:0] outputSum
