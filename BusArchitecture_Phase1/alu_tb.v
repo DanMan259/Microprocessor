@@ -17,10 +17,30 @@ module alu_tb;
 		X <= {32{1'b1}};
 		Y <= 0;
 		ctrl_signal <= 12'b000100000000; // Logical AND
-		#100 ctrl_signal <= 12'b001000000000; // Logical OR
-		#100
+		#10 ctrl_signal <= 12'b001000000000; // Logical OR
+		#10
 		X <= 3;
 		Y <= 5;
 		ctrl_signal <= 12'b000000000001; // add
+		#10
+		X <= 15;
+		Y <= 5;
+		ctrl_signal <= 12'b000000000010; // sub
+		#10
+		X <= 10;
+		Y <= 15;
+		ctrl_signal <= 12'b000000000010; // sub
+		#10
+		X <= 10;
+		Y <= -10;
+		ctrl_signal <= 12'b000000000010; // sub
+		#10
+		X <= -15;
+		Y <= 10;
+		ctrl_signal <= 12'b000000000010; // sub
+		#10
+		X <= -15;
+		Y <= -5;
+		ctrl_signal <= 12'b000000000010; // sub
 	end
 endmodule

@@ -36,5 +36,6 @@ module carryLookAheadAdder #(parameter BITS=32)(
 	assign w_C[0] = 1'b0; // no carry input to the first full adder
 	
 	assign outputSum = {w_C[BITS], w_Sum}; // concatenation
+	//assign outputSum = w_Sum; // concatenation
 	
 endmodule
