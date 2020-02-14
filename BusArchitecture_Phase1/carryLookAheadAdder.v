@@ -28,7 +28,7 @@ module carryLookAheadAdder #(parameter BITS=32)(
 	generate
 		for(j=0; j<BITS; j=j+1) begin : genTerms
 				assign w_G[j] = summand1_32_bits[j] & summand2_32_bits[j];
-				assign w_P[j] = summand1_32_bits | summand2_32_bits[j];
+				assign w_P[j] = summand1_32_bits[j] | summand2_32_bits[j];
 				assign w_C[j+1] = w_G[j] |(w_P[j] & w_C[j]);
 			end
 	endgenerate

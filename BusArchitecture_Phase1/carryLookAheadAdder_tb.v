@@ -18,17 +18,17 @@ module carryLookAheadAdder_tb;
 	
 	initial begin
 		#10
-		summand1 = 3'b000;
-		summand2 = 3'b001;
+		summand1 = 4;
+		summand2 = 3;
 		#10
-		summand1 = 3'b010;
-		summand2 = 3'b010;
+		summand1 = 10;
+		summand2 = 11;
 		#10
-		summand1 = 3'b101;
-		summand2 = 3'b110;
+		summand1 = 3;
+		summand2 = 5;
 		#10
-		summand1 = 3'b111;
-		summand2 = 3'b111;
+		summand1 = 7;
+		summand2 = 7;
 	end
 	
 endmodule
