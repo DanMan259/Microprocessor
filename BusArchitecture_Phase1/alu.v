@@ -44,7 +44,9 @@ module alu #(parameter BITS = 32, SIG_COUNT = 12)(
 	shiftL shiftL_inst(X, shiftL_result);
 	rotateR rotateR_inst(X, rotateR_result);
 	rotateL rotateL_inst(X, rotateL_result);
+	assign and_result = {(BITS*2){1'b0}}
 	assign and_result = X && Y;
+	assign or_result = {(BITS*2){1'b0}}
 	assign or_result = X || Y;
 	negate negate_inst(X, negate_result);
 	notBits notBits_inst(X, not_result);
