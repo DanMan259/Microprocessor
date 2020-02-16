@@ -38,7 +38,7 @@
 
 set_global_assignment -name FAMILY "Cyclone III"
 set_global_assignment -name DEVICE AUTO
-set_global_assignment -name TOP_LEVEL_ENTITY negate
+set_global_assignment -name TOP_LEVEL_ENTITY alu
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION "13.0 SP1"
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "16:10:15  JANUARY 23, 2020"
 set_global_assignment -name LAST_QUARTUS_VERSION "13.0 SP1"
@@ -84,6 +84,10 @@ set_global_assignment -name EDA_TEST_BENCH_FILE alu_tb.v -section_id alu_tb
 set_global_assignment -name VERILOG_FILE multiply.v
 set_global_assignment -name VERILOG_FILE division.v
 set_global_assignment -name VERILOG_FILE not.v
+set_global_assignment -name VERILOG_FILE shiftR.v
+set_global_assignment -name VERILOG_FILE shiftL.v
+set_global_assignment -name VERILOG_FILE rotateR.v
+set_global_assignment -name VERILOG_FILE rotateL.v
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
