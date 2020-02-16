@@ -40,14 +40,14 @@ module alu #(parameter BITS = 32, SIG_COUNT = 12)(
 	subtract sub_inst(X, Y, sub_result);
 	multiply mul_inst(X, Y, mul_result);
 	division div_inst(X, Y, div_result);
-	shiftR shiftR_inst(X, Y, shiftR_result);
-	shiftL shiftL_inst(X, Y, shiftL_result);
-	rotateR rotateR_inst(X, Y, rotateR_result);
-	rotateL rotateL_inst(X, Y, rotateL_result);
+	shiftR shiftR_inst(X, shiftR_result);
+	shiftL shiftL_inst(X, shiftL_result);
+	rotateR rotateR_inst(X, rotateR_result);
+	rotateL rotateL_inst(X, rotateL_result);
 	assign and_result = X && Y;
 	assign or_result = X || Y;
-	negate negate_inst(X, Y, negate_result);
-	notBits notBits_inst(X, Y, not_result);
+	negate negate_inst(X, negate_result);
+	notBits notBits_inst(X, not_result);
 	
 endmodule
 		
