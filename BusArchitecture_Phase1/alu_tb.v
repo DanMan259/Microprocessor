@@ -42,5 +42,37 @@ module alu_tb;
 		X <= -15;
 		Y <= -5;
 		ctrl_signal <= 12'b000000000010; // sub
+		#10
+		X <= 15;
+		Y <= 5;
+		ctrl_signal <= 12'b000000000100; // mul
+		#10
+		X <= 15;
+		Y <= -5;
+		ctrl_signal <= 12'b000000000100; // mul
+		#10
+		X <= -15;
+		Y <= 5;
+		ctrl_signal <= 12'b000000000100; // mul
+		#10
+		X <= -15;
+		Y <= -5;
+		ctrl_signal <= 12'b000000000100; // mul
+		#10
+		X <= 15;
+		Y <= 5;
+		ctrl_signal <= 12'b000000001000; // div
+		#10
+		X <= 15;
+		Y <= -5;
+		ctrl_signal <= 12'b000000001000; // div
+		#10
+		X <= -15;
+		Y <= 5;
+		ctrl_signal <= 12'b000000001000; // div
+		#10
+		X <= -15;
+		Y <= -5;
+		ctrl_signal <= 12'b000000001000; // div
 	end
 endmodule
