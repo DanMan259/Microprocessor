@@ -3,7 +3,7 @@
 module division #(parameter BITS=32)(
 	input [BITS-1:0] divisor, 
 	input [BITS-1:0] dividend,
-	output reg [(BITS*2)-1:0] result, 
+	output reg [(BITS*2)-1:0] result
 );
 
 	reg [BITS-1:0] a;
