@@ -10,7 +10,7 @@ module multiply #(parameter BITS=32)(
 	wire [BITS-1:0] negMul;
 	negate neg_inst(multiplicand, negMul);
 	reg [2:0] bitGroupings [(BITS/2)-1:0];						// Array of 3 bit groupings
-	reg signed [BITS-1:0] partialProducts [(BITS/2)-1:0];	// The partial products which are computed based on combinedBits
+	reg signed [BITS-1:0] partialProducts [(BITS/2)-1:0];	// The partial products which are computed based on groupings
 	integer i, j;
 	
 	always @ *
@@ -25,8 +25,8 @@ module multiply #(parameter BITS=32)(
 		for(j=0;j<(BITS/2);j=j+1) begin 
 			case(bitGroupings[j])    
 				3'b001 , 3'b010 : partialProducts[j] = multiplicand;
-				3'b011 : partialProducts[j] = {multiplicand, 1'b0};
-				3'b100 : partialProducts[j] = {negMul, 1'b0};
+				3'b011 : partialProducts[j] = {multiplicand[BITS-2:0], 1'b0};
+				3'b100 : partialProducts[j] = {negMul[BITS-2:0], 1'b0};
 				3'b101 , 3'b110 : partialProducts[j] = negMul;
 				default : partialProducts[j] = {BITS{1'b0}};
 			endcase

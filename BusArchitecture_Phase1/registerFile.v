@@ -8,7 +8,7 @@ module registerFile #(parameter BITS = 32, REGISTERS = 16)(
 	generate
 	genvar i;
 		for (i = 0; i < REGISTERS; i = i + 1) begin: gen_registers
-			register generalRegister(clk, clr[i], loadEnable[i], busMuxOut, registerStream[(i+1) * BITS - 1 : i*BITS]);
+			register #(.BITS(BITS)) generalRegister(clk, clr[i], loadEnable[i], busMuxOut, registerStream[(i+1) * BITS - 1 : i*BITS]);
 		end
 	endgenerate	
 endmodule

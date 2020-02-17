@@ -1,9 +1,9 @@
 `timescale 1ns/10ps
 
 module registerFile_tb;
-
 	parameter BITS = 32;
 	parameter REGISTERS = 16;
+	
 	reg [BITS-1:0] busMuxOut;
 	reg clk;
 	reg [REGISTERS-1:0] clr, loadEnable;

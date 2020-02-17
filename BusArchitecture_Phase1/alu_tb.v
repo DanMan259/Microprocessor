@@ -16,11 +16,9 @@ module alu_tb;
 	alu alu_inst(ctrl_signal, X, Y, OpResult);
 	
 	initial begin
-		//X <= {BITS{1'b1}};
-		//Y <= {BITS{1'b0}};
-		X <= 15;
-		Y <= 5;
-		for(i = 0; i<SIG_COUNT; i=i+1) begin
+		X <= {BITS{1'b1}};
+		Y <= {BITS{1'b0}};
+		/*for(i = 0; i<4; i=i+1) begin
 			ctrl_signal = {SIG_COUNT{1'b0}};
 			ctrl_signal[i] = 1;
 			#10
@@ -36,7 +34,21 @@ module alu_tb;
 			X <= -15;
 			Y <= -5;
 		end
-		/*
+		
+		for(i = 4; i<8; i=i+1) begin
+			ctrl_signal = {SIG_COUNT{1'b0}};
+			ctrl_signal[i] = 1;
+			#10
+			X <= 16;
+			Y <= 2;
+		end
+		for(i = 8; i<12; i=i+1) begin
+			ctrl_signal = {SIG_COUNT{1'b0}};
+			ctrl_signal[i] = 1;
+			#10
+			X <= 15;
+			Y <= {BITS{1'b0}};
+		end*/
 		ctrl_signal <= 12'b000100000000; // Logical AND
 		#10 ctrl_signal <= 12'b001000000000; // Logical OR
 		#10
@@ -95,6 +107,5 @@ module alu_tb;
 		X <= -15;
 		Y <= -5;
 		ctrl_signal <= 12'b000000001000; // div
-		*/
 	end
 endmodule

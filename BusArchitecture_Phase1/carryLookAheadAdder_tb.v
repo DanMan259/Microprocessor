@@ -3,7 +3,6 @@
 `timescale 1ns/10ps
 
 module carryLookAheadAdder_tb;
-	
 	parameter BITS = 32;
 	
 	reg [BITS-1:0] summand1 = 0;
