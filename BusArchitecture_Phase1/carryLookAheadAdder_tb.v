@@ -8,7 +8,7 @@ module carryLookAheadAdder_tb;
 	
 	reg [BITS-1:0] summand1 = 0;
 	reg [BITS-1:0] summand2 = 0;
-	wire [BITS:0] sum;
+	wire [BITS-1:0] sum;
 	
 	carryLookAheadAdder #(.BITS(BITS)) cla_inst(
 		.summand1_32_bits(summand1),

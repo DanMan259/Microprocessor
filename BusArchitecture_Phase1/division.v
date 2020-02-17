@@ -1,8 +1,8 @@
 // division.v 
 
 module division #(parameter BITS=32)(
-	input [BITS-1:0] divisor, 
 	input [BITS-1:0] dividend,
+	input [BITS-1:0] divisor, 
 	output reg [(BITS*2)-1:0] result
 );
 
@@ -33,9 +33,9 @@ module division #(parameter BITS=32)(
 		if(a[BITS-1] == 1) begin
 			a = a + m;
 		end
-
-		result[(2*BITS)-1:BITS] = q;
-		result[BITS-1:0] = a;
+		
+		result[(2*BITS)-1:BITS] = q; 	// Quotient
+		result[BITS-1:0] = a; 			// Remainder
 
 	end
 endmodule

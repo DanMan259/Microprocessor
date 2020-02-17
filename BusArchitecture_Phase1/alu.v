@@ -23,8 +23,8 @@ module alu #(parameter BITS = 32, SIG_COUNT = 12)(
 	output [(BITS*2)-1:0] operationResult
 );
 
-	wire[BITS - 1:0] add_result, sub_result;
-	wire[(BITS*2) - 1:0] mul_result, div_result;
+	wire signed [BITS - 1:0] add_result, sub_result;
+	wire signed [(BITS*2) - 1:0] mul_result, div_result;
 	wire[BITS - 1:0] shiftR_result, shiftL_result;
 	wire[BITS - 1:0] rotateR_result, rotateL_result;
 	wire[BITS - 1:0] and_result, or_result;

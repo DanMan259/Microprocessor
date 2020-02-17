@@ -8,16 +8,18 @@ module alu_tb;
 	parameter SIG_COUNT = 12;
 	
 	reg [11:0] ctrl_signal;
-	reg [BITS-1:0] X, Y;
+	reg signed [BITS-1:0] X, Y;
 	integer i;
 	
-	wire [(BITS*2)-1:0] OpResult;
+	wire signed [(BITS*2)-1:0] OpResult;
 	
 	alu alu_inst(ctrl_signal, X, Y, OpResult);
 	
 	initial begin
-		X <= {BITS{1'b1}};
-		Y <= {BITS{1'b0}};
+		//X <= {BITS{1'b1}};
+		//Y <= {BITS{1'b0}};
+		X <= 15;
+		Y <= 5;
 		for(i = 0; i<SIG_COUNT; i=i+1) begin
 			ctrl_signal = {SIG_COUNT{1'b0}};
 			ctrl_signal[i] = 1;
