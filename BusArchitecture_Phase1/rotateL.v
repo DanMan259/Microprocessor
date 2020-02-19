@@ -6,6 +6,6 @@ module rotateL #(parameter BITS=32)(
 	output wire [BITS-1:0] out
 );
 
-	assign out = ((in << rotateAmount)|(in >> (BITS-rotateAmount)));
+	assign out = ((in << (rotateAmount % BITS))|(in >> (BITS-(rotateAmount % BITS))));
 endmodule
 
