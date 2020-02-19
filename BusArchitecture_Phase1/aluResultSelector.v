@@ -1,7 +1,7 @@
 // Operation result selector
 // aluResultSelector
 
-module aluResultSelector #(parameter BITS=32, SIG_COUNT=12, OUT_BITS=64)(
+module aluResultSelector #(parameter BITS=32, SIG_COUNT=12, OUT_BITS=BITS)(
 	input [(OUT_BITS*SIG_COUNT)-1:0] resultStream,
 	input [SIG_COUNT-1:0] ctrl_signal,
 	output [OUT_BITS-1:0] selectedResult

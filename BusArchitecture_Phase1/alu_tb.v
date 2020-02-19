@@ -11,14 +11,14 @@ module alu_tb;
 	reg signed [BITS-1:0] X, Y;
 	integer i;
 	
-	wire signed [(BITS*2)-1:0] OpResult;
+	wire signed [BITS-1:0] OpResult_HI,OpResult_LO;
 	
-	alu alu_inst(ctrl_signal, X, Y, OpResult);
+	alu alu_inst(ctrl_signal, X, Y, OpResult_HI, OpResult_LO);
 	
 	initial begin
 		X <= {BITS{1'b1}};
 		Y <= {BITS{1'b0}};
-		/*for(i = 0; i<4; i=i+1) begin
+		for(i = 0; i<4; i=i+1) begin
 			ctrl_signal = {SIG_COUNT{1'b0}};
 			ctrl_signal[i] = 1;
 			#10
@@ -48,9 +48,11 @@ module alu_tb;
 			#10
 			X <= 15;
 			Y <= {BITS{1'b0}};
-		end*/
+		end
+		/*
 		ctrl_signal <= 12'b000100000000; // Logical AND
-		#10 ctrl_signal <= 12'b001000000000; // Logical OR
+		#10 
+		ctrl_signal <= 12'b001000000000; // Logical OR
 		#10
 		X <= 3;
 		Y <= 5;
@@ -106,6 +108,6 @@ module alu_tb;
 		#10
 		X <= -15;
 		Y <= -5;
-		ctrl_signal <= 12'b000000001000; // div
+		ctrl_signal <= 12'b000000001000; // div*/
 	end
 endmodule
