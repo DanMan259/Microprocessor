@@ -34,8 +34,8 @@ module division #(parameter BITS=32)(
 			a = a + m;
 		end
 		
-		result[(2*BITS)-1:BITS] = a[BITS - 1: 0]; 	// Quotient
-		result[BITS-1:0] = q; 								// Remainder
+		result[(2*BITS)-1:BITS] = a[BITS - 1: 0]; 	// Remainder
+		result[BITS-1:0] = q; 								// Quotient
 
 	end
 endmodule
