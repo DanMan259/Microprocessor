@@ -14,22 +14,23 @@
 8 - r8
 9 - r9
 10 - r10
-11 - r12
-12 - r13
-13 - r14
-14 - r15
-15 - pc
-16 - ir
-17 - rY
-18 - rZ (LOWER)
-19 - rZ (UPPER)
-20 - mar
-21 - HI
-22 - LO
-23 - MDR
+11 - r11
+12 - r12
+13 - r13
+14 - r14
+15 - r15
+16 - pc
+17 - ir
+18 - rY
+19 - rZ (LOWER)
+20 - rZ (UPPER)
+21 - mar
+22 - HI
+23 - LO
+24 - MDR
 */
 
-module registerFile #(parameter BITS = 32, REGISTERS = 24)(
+module registerFile #(parameter BITS = 32, REGISTERS = 25)(
 			input [BITS-1:0] busMuxOut,
 			input clk,
 			input [REGISTERS-1:0] clr, loadEnable,
