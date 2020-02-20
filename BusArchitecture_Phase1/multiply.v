@@ -10,12 +10,12 @@ module multiply #(parameter BITS=32)(
 	wire [BITS-1:0] negMul;
 	negate neg_inst(multiplicand, negMul);
 	reg [2:0] bitGroupings [(BITS/2)-1:0];	// Array of 3 bit groupings
-	reg [BITS:0] currentAddition;				// current derived value from bit grouping
+	reg signed [BITS:0] currentAddition;				// current derived value from bit grouping
+	reg signed [(BITS*2)-1:0] shiftedCurrentAddition;
 	integer i, j;
 	
 	always @ (*)
 	begin
-		//outputMul = {(BITS*2){1'b0}};
 		outputMul = 0;
 		bitGroupings[0] = {multiplier[1], multiplier[0], 1'b0};
 	
@@ -31,7 +31,8 @@ module multiply #(parameter BITS=32)(
 				3'b101 , 3'b110 : currentAddition = {negMul[BITS-1], negMul};
 				default : currentAddition = 0;
 			endcase
-			outputMul = (outputMul + (currentAddition << (2*j)));
+			shiftedCurrentAddition = currentAddition << (2*j);
+			outputMul = (outputMul + shiftedCurrentAddition);
 		end
 	end
 endmodule
