@@ -17,7 +17,6 @@ module alu_tb;
 	alu alu_inst(ctrl_signal, X, Y, OpResult_HI, OpResult_LO);
 	
 	initial begin
-		
 		X <= {BITS{1'b0}};
 		Y <= {BITS{1'b0}};
 		
@@ -36,6 +35,9 @@ module alu_tb;
 			#10
 			X <= -15;
 			Y <= -5;
+			#10
+			X <= 15;
+			Y <= 5;
 		end
 		
 		for(i = 4; i<8; i=i+1) begin
