@@ -21,9 +21,9 @@ module alu_tb;
 		Y <= {BITS{1'b0}};
 		
 		for(i = 0; i<4; i=i+1) begin
+			#10
 			ctrl_signal = {SIG_COUNT{1'b0}};
 			ctrl_signal[i] = 1;
-			#10
 			X <= 15;
 			Y <= 5;
 			#10
@@ -35,22 +35,19 @@ module alu_tb;
 			#10
 			X <= -15;
 			Y <= -5;
-			#10
-			X <= 15;
-			Y <= 5;
 		end
 		
 		for(i = 4; i<8; i=i+1) begin
+			#10
 			ctrl_signal = {SIG_COUNT{1'b0}};
 			ctrl_signal[i] = 1;
-			#10
 			X <= 16;
 			Y <= 2;
 		end
 		for(i = 8; i<12; i=i+1) begin
+			#10
 			ctrl_signal = {SIG_COUNT{1'b0}};
 			ctrl_signal[i] = 1;
-			#10
 			X <= 15;
 			Y <= {BITS{1'b0}};
 		end
