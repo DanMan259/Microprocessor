@@ -15,6 +15,7 @@ module alu_tb;
 	wire signed [(BITS*2)-1:0] OpResult;
 	assign OpResult = {OpResult_HI, OpResult_LO};
 	alu alu_inst(ctrl_signal, X, Y, OpResult_HI, OpResult_LO);
+	
 	initial begin
 		
 		X <= {BITS{1'b0}};

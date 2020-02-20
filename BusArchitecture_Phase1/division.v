@@ -8,15 +8,32 @@ module division #(parameter BITS=32)(
 
 	reg [BITS:0] a; 
 	reg [BITS-1:0] q;
-	reg [BITS:0] m; 
+	reg [BITS:0] m;
+	reg negate_flag;
 
 	integer i;
 
 	always @ *
 	begin
 		a = 0; 
-		q = dividend;
-		m = {1'b0, divisor};
+		
+	  //  Make dividend and divisor are positive
+	  if (dividend[BITS - 1] == 1)
+			q = -dividend; 
+	  else
+			q = dividend;
+			
+	  if (divisor[BITS - 1] == 1)
+			m = {1'b0, -divisor};
+	  else
+			m = {1'b0, divisor};
+			
+	  // Determine if result needs to be negated
+	  if ((dividend[BITS - 1] ^ divisor[BITS - 1]) == 1)
+			negate_flag = 1'b1;
+	  else
+			negate_flag = 1'b0;
+		
 		for(i = 0; i < BITS; i = i + 1) begin
 			a = a << 1;
 			a[0] = q[BITS-1];
@@ -34,8 +51,11 @@ module division #(parameter BITS=32)(
 			a = a + m;
 		end
 		
-		result[(2*BITS)-1:BITS] = a[BITS - 1: 0]; 	// Remainder
-		result[BITS-1:0] = q; 								// Quotient
+		if (negate_flag == 1)
+			q = -q;
+		
+		result[(2*BITS)-1:BITS] = a[BITS - 1: 0]; 	// Quotient
+		result[BITS-1:0] = q; 								// Remainder
 
 	end
 endmodule
