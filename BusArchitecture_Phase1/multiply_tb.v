@@ -18,7 +18,7 @@ module multiply_tb;
 	
 	initial begin
 		X <= 33;
-		Y <= 3;
+		Y <= 33;
 	end
 	
 endmodule

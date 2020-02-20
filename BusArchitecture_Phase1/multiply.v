@@ -9,13 +9,14 @@ module multiply #(parameter BITS=32)(
 
 	wire [BITS-1:0] negMul;
 	negate neg_inst(multiplicand, negMul);
-	reg [2:0] bitGroupings [(BITS/2)-1:0];						// Array of 3 bit groupings
-	reg signed [BITS:0] partialProducts [(BITS/2)-1:0];	// The partial products which are computed based on groupings
+	reg [2:0] bitGroupings [(BITS/2)-1:0];	// Array of 3 bit groupings
+	reg [BITS:0] currentAddition;				// current derived value from bit grouping
 	integer i, j;
 	
-	always @ *
+	always @ (*)
 	begin
-		outputMul = {(BITS*2){1'b0}};
+		//outputMul = {(BITS*2){1'b0}};
+		outputMul = 0;
 		bitGroupings[0] = {multiplier[1], multiplier[0], 1'b0};
 	
 		for(i = 1;i<(BITS/2);i=i+1) begin
@@ -24,13 +25,13 @@ module multiply #(parameter BITS=32)(
 	
 		for(j=0;j<(BITS/2);j=j+1) begin 
 			case(bitGroupings[j])    
-				3'b001 , 3'b010 : partialProducts[j] = {multiplicand[BITS-1], multiplicand};
-				3'b011 : partialProducts[j] = {multiplicand, 1'b0};
-				3'b100 : partialProducts[j] = {negMul, 1'b0};
-				3'b101 , 3'b110 : partialProducts[j] = {negMul[BITS-1], negMul};
-				default : partialProducts[j] = 0;
+				3'b001 , 3'b010 : currentAddition = {multiplicand[BITS-1], multiplicand};
+				3'b011 : currentAddition = {multiplicand, 1'b0};
+				3'b100 : currentAddition = {negMul, 1'b0};
+				3'b101 , 3'b110 : currentAddition = {negMul[BITS-1], negMul};
+				default : currentAddition = 0;
 			endcase
-			outputMul = (outputMul + (partialProducts[j] << (2*j)));
+			outputMul = (outputMul + (currentAddition << (2*j)));
 		end
 	end
 endmodule
