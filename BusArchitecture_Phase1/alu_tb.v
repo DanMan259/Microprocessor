@@ -12,12 +12,14 @@ module alu_tb;
 	integer i;
 	
 	wire signed [BITS-1:0] OpResult_HI,OpResult_LO;
-	
+	wire signed [(BITS*2)-1:0] OpResult;
+	assign OpResult = {OpResult_HI, OpResult_LO};
 	alu alu_inst(ctrl_signal, X, Y, OpResult_HI, OpResult_LO);
-	
 	initial begin
-		X <= {BITS{1'b1}};
+		
+		X <= {BITS{1'b0}};
 		Y <= {BITS{1'b0}};
+		
 		for(i = 0; i<4; i=i+1) begin
 			ctrl_signal = {SIG_COUNT{1'b0}};
 			ctrl_signal[i] = 1;

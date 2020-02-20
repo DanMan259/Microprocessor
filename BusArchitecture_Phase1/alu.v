@@ -30,14 +30,15 @@ module alu #(parameter BITS = 32, SIG_COUNT = 12)(
 	wire[BITS - 1:0] and_result, or_result;
 	wire[BITS - 1:0] negate_result, not_result;
 	
+	//{add_result, sub_result, mul_result[BITS-1:0], div_result[BITS-1:0], shiftR_result, shiftL_result, rotateR_result, rotateL_result, and_result, or_result, negate_result, not_result}
 	
 	aluResultSelector #(.BITS(BITS), .SIG_COUNT(SIG_COUNT), .OUT_BITS(BITS)) alu_out_select_LO(
-		{add_result, sub_result, mul_result[BITS-1:0], div_result[BITS-1:0], shiftR_result, shiftL_result, rotateR_result, rotateL_result, and_result, or_result, negate_result, not_result},
+		{not_result, negate_result, or_result, and_result, rotateR_result, shiftR_result, shiftL_result, rotateL_result, div_result[BITS-1:0], mul_result[BITS-1:0], sub_result, add_result},
 		ctrl_signal,
 		operationResult_LO
 	);
 	aluResultSelector #(.BITS(BITS), .SIG_COUNT(SIG_COUNT), .OUT_BITS(BITS)) alu_out_select_HI(
-		{{BITS{1'bz}}, {BITS{1'bz}}, mul_result[(2*BITS)-1:BITS], div_result[(2*BITS)-1:BITS], {BITS{1'bz}}, {BITS{1'bz}}, {BITS{1'bz}}, {BITS{1'bz}}, {BITS{1'bz}}, {BITS{1'bz}}, {BITS{1'bz}}, {BITS{1'bz}}},
+		{{BITS{1'bz}}, {BITS{1'bz}}, {BITS{1'bz}}, {BITS{1'bz}}, {BITS{1'bz}}, {BITS{1'bz}}, {BITS{1'bz}}, {BITS{1'bz}}, div_result[(2*BITS)-1:BITS], mul_result[(2*BITS)-1:BITS], {BITS{1'bz}}, {BITS{1'bz}}},
 		ctrl_signal,
 		operationResult_HI
 	);
