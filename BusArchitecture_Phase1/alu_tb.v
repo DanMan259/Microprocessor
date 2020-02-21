@@ -11,10 +11,10 @@ module alu_tb;
 	reg signed [BITS-1:0] X, Y;
 	integer i;
 	
-	wire signed [BITS-1:0] OpResult_HI,OpResult_LO;
+	//wire signed [BITS-1:0] OpResult_HI,OpResult_LO;
 	wire signed [(BITS*2)-1:0] OpResult;
-	assign OpResult = {OpResult_HI, OpResult_LO};
-	alu alu_inst(ctrl_signal, X, Y, OpResult_HI, OpResult_LO);
+	//assign OpResult = {OpResult_HI, OpResult_LO};
+	alu alu_inst(ctrl_signal, X, Y, OpResult);
 	
 	initial begin
 		X <= {BITS{1'b0}};
