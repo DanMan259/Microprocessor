@@ -20,17 +20,14 @@
 14 - r14
 15 - r15
 16 - pc
-17 - ir
-18 - rY
 19 - rZ (LOWER)
 20 - rZ (UPPER)
-21 - mar
-22 - HI
-23 - LO
-24 - MDR
+21 - HI
+22 - LO
+23 - MDR
 */
 
-module registerSelect #(parameter BITS = 32, REGISTERS = 25)(
+module registerSelect #(parameter BITS = 32, REGISTERS = 22)(
 			input [BITS * REGISTERS - 1 : 0] registerStream,
 			input [REGISTERS - 1 : 0] registerSelect,
 			output reg [BITS - 1 : 0] busMuxOut
