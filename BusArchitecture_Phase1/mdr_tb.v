@@ -10,7 +10,7 @@ module mdr_tb;
 	reg read, clk, clear, enable;
 	wire [BITS-1:0] MDRout;
 	
-	mdr mdr_inst(busMuxOut, MDataIn, read, clk, clear, enable, MDRout);
+	mdr #(.BITS(BITS)) mdr_inst(busMuxOut, MDataIn, read, clk, clear, enable, MDRout);
 	
 	initial begin
 		read <= 1;

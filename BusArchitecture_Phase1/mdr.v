@@ -16,6 +16,6 @@ module mdr #(parameter BITS=32)(
 			
 	end
 	
-	register MDR_reg(clk, clear, enable, muxOut, MDRout);
+	register #(.BITS(BITS)) MDR_reg(clk, clear, enable, muxOut, MDRout);
 	
 endmodule
