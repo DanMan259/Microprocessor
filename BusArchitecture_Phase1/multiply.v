@@ -8,7 +8,7 @@ module multiply #(parameter BITS=32)(
 
 
 	wire [BITS-1:0] negMul;
-	negate neg_inst(multiplicand, negMul);
+	negate #(.BITS(BITS)) neg_inst(multiplicand, negMul);
 	reg [2:0] bitGroupings [(BITS/2)-1:0];	// Array of 3 bit groupings
 	reg signed [BITS:0] currentAddition;				// current derived value from bit grouping
 	reg signed [(BITS*2)-1:0] shiftedCurrentAddition;
