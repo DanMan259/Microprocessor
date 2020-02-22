@@ -30,15 +30,12 @@
 module registerSelect #(parameter BITS = 32, REGISTERS = 22)(
 			input [BITS * REGISTERS - 1 : 0] registerStream,
 			input [REGISTERS - 1 : 0] registerSelect,
-			output reg [BITS - 1 : 0] busMuxOut
+			output [BITS - 1 : 0] busMuxOut
 );
 	generate
 	genvar i;
 	for (i = 0; i < REGISTERS; i = i + 1) begin : register_selector
-		always @* begin
-			if (registerSelect[i] == 1)
-				busMuxOut <= registerStream[(i+1)*BITS-1: i*BITS];
-		end
+		assign busMuxOut = registerSelect[i] ? registerStream[(i+1)*BITS-1: i*BITS] : {BITS{1'bz}};
 	end
 	endgenerate
 endmodule
