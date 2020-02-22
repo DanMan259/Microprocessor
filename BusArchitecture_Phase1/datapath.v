@@ -3,10 +3,11 @@
 module datapath #(parameter BITS=32, REGISTERS=16, TOT_REGISTERS=22, SIG_COUNT=12)(
 	input clk, R0in, R1in, R2in, R3in, R4in, R5in, R6in, R7in, R8in, R9in, R10in, R11in, R12in, R13in, R14in, R15in, PCin, IRin, RYin, RZin, MARin, HIin, LOin, MDRin, Read, MDRout, LOout, HIout, RZHIout, RZLOout, PCout, R15out, R14out, R13out, R12out, R11out, R10out, R9out, R8out, R7out, R6out, R5out, R4out, R3out, R2out, R1out, R0out, ADD, SUB, MUL, DIV, SHR, SHL, ROR, ROL, AND, OR, NEGATE, NOT,
 	input [BITS-1:0] MDataIn,
-	output [BITS * REGISTERS - 1 : 0] genRegisterStream
+	output wire [BITS * REGISTERS - 1 : 0] genRegisterStream,
+	output wire [BITS-1:0] bus
 );
 
-	wire [BITS-1:0] bus;
+	//wire [BITS-1:0] bus;
 	//wire [BITS * REGISTERS - 1 : 0] genRegisterStream;
 	wire [BITS-1:0] PCVal;
 	wire [BITS-1:0] IRVal;
