@@ -17,7 +17,7 @@ module datapath_alt_tb;
 	 
 	 initial begin 
 		Clock = 0;
-		forever Clock = ~Clock;
+		forever #10 Clock = ~Clock;
 	end
 	
 	initial begin
