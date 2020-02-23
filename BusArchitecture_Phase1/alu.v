@@ -21,7 +21,6 @@
 module alu #(parameter BITS = 32, SIG_COUNT = 13)(
 	input [SIG_COUNT-1:0] ctrl_signal,
 	input [BITS-1:0] X, Y,
-	//output [BITS-1:0] operationResult_HI,operationResult_LO
 	output [(BITS*2)-1:0] operationResult
 );
 
@@ -39,7 +38,6 @@ module alu #(parameter BITS = 32, SIG_COUNT = 13)(
 		operationResult[BITS-1:0]
 	);
 	aluResultSelector #(.BITS(BITS), .SIG_COUNT(SIG_COUNT), .OUT_BITS(BITS)) alu_out_select_HI(
-		//{{BITS{1'bz}}, {BITS{1'bz}}, {BITS{1'bz}}, {BITS{1'bz}}, {BITS{1'bz}}, {BITS{1'bz}}, {BITS{1'bz}}, {BITS{1'bz}}, {BITS{1'bz}}, div_result[(2*BITS)-1:BITS], mul_result[(2*BITS)-1:BITS], {BITS{1'bz}}, {BITS{1'bz}}},
 		{{BITS{pc_result[BITS-1]}}, {BITS{not_result[BITS-1]}}, {BITS{negate_result[BITS-1]}}, {BITS{or_result[BITS-1]}}, {BITS{and_result[BITS-1]}}, {BITS{rotateL_result[BITS-1]}}, {BITS{rotateR_result[BITS-1]}}, {BITS{shiftL_result[BITS-1]}}, {BITS{shiftR_result[BITS-1]}}, div_result[(2*BITS)-1:BITS], mul_result[(2*BITS)-1:BITS], {BITS{sub_result[BITS-1]}}, {BITS{add_result[BITS-1]}}},
 		ctrl_signal,
 		operationResult[(BITS*2)-1:BITS]
@@ -58,7 +56,7 @@ module alu #(parameter BITS = 32, SIG_COUNT = 13)(
 	assign or_result = X || Y;
 	negate #(.BITS(BITS))  negate_inst(X, negate_result);
 	notBits #(.BITS(BITS))  notBits_inst(X, not_result);
-	carryLookAheadAdder #(.BITS(BITS)) PC_INC_ADDER (32'b0100, Y, pc_result);
+	carryLookAheadAdder #(.BITS(BITS)) PC_INC_ADDER (4, Y, pc_result);
 	
 endmodule
 		
