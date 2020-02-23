@@ -6,8 +6,8 @@ module negate #(parameter BITS=32)(
 );
 
 	wire [BITS-1:0] notResult;
-	notBits not_inst(in, notResult);
+	notBits #(.BITS(BITS)) not_inst(in, notResult);
 
-	carryLookAheadAdder cla_inst(notResult, 1, out);
+	carryLookAheadAdder #(.BITS(BITS)) cla_inst(notResult, 1, out);
 
 endmodule
