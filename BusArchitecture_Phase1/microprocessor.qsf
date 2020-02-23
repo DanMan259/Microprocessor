@@ -102,9 +102,6 @@ set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "500 ns" -section_id mdr_
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME mdr_tb -section_id mdr_tb
 set_global_assignment -name VERILOG_FILE datapath.v
 set_global_assignment -name VERILOG_FILE datapath_tb.v
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
-set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
-set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name EDA_TEST_BENCH_NAME datapath_tb -section_id eda_simulation
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id datapath_tb
 set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "500 ns" -section_id datapath_tb
@@ -114,6 +111,9 @@ set_global_assignment -name EDA_TEST_BENCH_NAME datapath_alt_tb -section_id eda_
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id datapath_alt_tb
 set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "500 ns" -section_id datapath_alt_tb
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME datapath_alt_tb -section_id datapath_alt_tb
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name EDA_TEST_BENCH_FILE register_tb.v -section_id register_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE registerFile_tb.v -section_id registerFile_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE carryLookAheadAdder_tb.v -section_id carryLookAheadAdder_tb

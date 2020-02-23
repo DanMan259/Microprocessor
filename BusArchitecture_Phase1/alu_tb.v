@@ -5,9 +5,9 @@
 module alu_tb;
 
 	parameter BITS = 32;
-	parameter SIG_COUNT = 12;
+	parameter SIG_COUNT = 13;
 	
-	reg [11:0] ctrl_signal;
+	reg [SIG_COUNT-1:0] ctrl_signal;
 	reg signed [BITS-1:0] X, Y;
 	integer i;
 	
@@ -61,5 +61,10 @@ module alu_tb;
 			X <= 15;
 			Y <= {BITS{1'b0}};
 		end
+		#10
+		ctrl_signal = {SIG_COUNT{1'b0}};
+		ctrl_signal[12] = 1;
+		X <= 10;
+		Y <= 4;
 	end
 endmodule
