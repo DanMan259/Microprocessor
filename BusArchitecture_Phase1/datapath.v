@@ -14,19 +14,14 @@ module datapath #(parameter BITS=32, REGISTERS=16, TOT_REGISTERS=REGISTERS+6, SI
 	output wire [BITS-1:0] IRVal
 );
 
-	//wire [BITS-1:0] bus;
-	wire [BITS * REGISTERS - 1 : 0] genRegisterStream;
+
+	wire [(BITS*REGISTERS)-1 : 0] genRegisterStream;
 	wire [BITS-1:0] PCVal;
-	//wire [BITS-1:0] IRVal;
 	wire [BITS-1:0] RYVal;
-	//wire [(BITS*2)-1:0] RZVal;
-	//wire [BITS-1:0] MARVal;
 	wire [BITS-1:0] HIVal;
 	wire [BITS-1:0] LOVal;
 	wire [BITS-1:0] MDRVal;
 	wire [(BITS*2)-1:0] operationResult;
-	
-	//wire [(BITS*TOT_REGISTERS)-1:0] regSelectStream;
 	wire [SIG_COUNT-1:0] alu_ctrl_signal;
 	 
 	register #(.BITS(BITS)) PC(clk, reset, PCin, bus, PCVal);
