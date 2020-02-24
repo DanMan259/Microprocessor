@@ -1,10 +1,11 @@
-c// Datapath
+// Datapath
 																																																																		
 module datapath #(parameter BITS=32, REGISTERS=16, TOT_REGISTERS=REGISTERS+6, SIG_COUNT=13)(
 	input reset, clk,
+	input [REGISTERS-1:0] GPRin, 
 	input PCin, IRin, RYin, RZin, MARin, HIin, LOin, MDRin, Read, MDRout, LOout, HIout, RZHIout, RZLOout, PCout, 
+	input [REGISTERS-1:0] GPRout, 
 	input ADD, SUB, MUL, DIV, SHR, SHL, ROR, ROL, AND, OR, NEGATE, NOT, IncPC,
-	input [REGISTERS-1:0] GPRin, GPRout,
 	input [BITS-1:0] MDataIn,
 	output wire [(BITS*TOT_REGISTERS)-1:0] regSelectStream,
 	output wire [BITS-1:0] bus,
@@ -39,6 +40,3 @@ module datapath #(parameter BITS=32, REGISTERS=16, TOT_REGISTERS=REGISTERS+6, SI
 	alu #(.BITS(BITS), .SIG_COUNT(SIG_COUNT)) alu_inst(alu_ctrl_signal, RYVal, bus, operationResult);
 	
 endmodule
-
-	
-	
