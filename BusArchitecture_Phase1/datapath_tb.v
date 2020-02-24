@@ -6,7 +6,7 @@
 `timescale 1ns/10ps
 module datapath_tb;
 
-	 parameter BITS=32, REGISTERS=16, TOT_REGISTERS=(REGISTERS+6);
+	 parameter BITS=32, REGISTERS=6, TOT_REGISTERS=(REGISTERS+6);
 	 reg MDRout, LOout, HIout, Zlowout, Zhighout, PCout; // add any other signals to see in your simulation
 	 reg MARin, RZin, PCin, MDRin, IRin, RYin, HIin, LOin;
 	 reg IncPC, Read, ADD, SUB, MUL, DIV, SHR, SHL, ROR, ROL, AND, OR, NEGATE, NOT;
@@ -70,7 +70,7 @@ module datapath_tb;
             end
             Reg_load1a: begin
                 Mdatain <= 22;
-                Read = 1; MDRin = 1;
+                Read <= 1; MDRin <= 1;
             end
             Reg_load1b: begin
 					 MDRout <= 1; GPRin[2] <= 1;

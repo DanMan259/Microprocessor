@@ -1,6 +1,6 @@
-// Datapath
+c// Datapath
 																																																																		
-module datapath #(parameter BITS=32, REGISTERS=16, TOT_REGISTERS=(REGISTERS+6), SIG_COUNT=13)(
+module datapath #(parameter BITS=32, REGISTERS=16, TOT_REGISTERS=REGISTERS+6, SIG_COUNT=13)(
 	input reset, clk,
 	input PCin, IRin, RYin, RZin, MARin, HIin, LOin, MDRin, Read, MDRout, LOout, HIout, RZHIout, RZLOout, PCout, 
 	input ADD, SUB, MUL, DIV, SHR, SHL, ROR, ROL, AND, OR, NEGATE, NOT, IncPC,
