@@ -2,9 +2,9 @@
 
 // and datapath_tb.v file: <This is the filename>
 
-// This file does AND R5, R2, R4
+// This file does MUL R2, R4
 `timescale 1ns/10ps
-module datapath_tb;
+module datapath_mul_tb;
 
 	 parameter BITS=32, REGISTERS=16, TOT_REGISTERS=REGISTERS+6;
 	 reg MDRout, LOout, HIout, Zlowout, Zhighout, PCout; // add any other signals to see in your simulation
@@ -30,7 +30,7 @@ module datapath_tb;
 	 
 	 parameter Default = 4'b0000, Reg_load1a = 4'b0001, Reg_load1b = 4'b0010, Reg_load2a = 4'b0011,
 								 Reg_load2b = 4'b0100, Reg_load3a = 4'b0101, Reg_load3b = 4'b0110, T0 = 4'b0111,
-								 T1 = 4'b1000, T2 = 4'b1001, T3 = 4'b1010, T4 = 4'b1011, T5 = 4'b1100;
+								 T1 = 4'b1000, T2 = 4'b1001, T3 = 4'b1010, T4 = 4'b1011, T5 = 4'b1100, T6 = 4'b1101;
 								 reg [3:0] Present_state = Default;
 								 
 	datapath #(.BITS(BITS), .REGISTERS(REGISTERS)) DUT(
@@ -69,6 +69,7 @@ module datapath_tb;
             T2 : Present_state = T3;
             T3 : Present_state = T4;
             T4 : Present_state = T5;
+				T5 : Present_state = T6;
         endcase
     end
 	 
@@ -127,13 +128,17 @@ module datapath_tb;
 					 #5 IRin <= 0; MDRout <= 0; GPRout[2] <= 1;
             end
             T4: begin
-					 AND <= 1; RZin <= 1;
+					 MUL <= 1; RZin <= 1;
 					 #5 RYin <= 0; GPRout[2] <= 0; GPRout[4] <= 1;
             end
             T5: begin
-					 GPRin[5] <= 1;
-					 #5 AND <= 0; RZin <= 0; GPRout[4] <= 0; Zlowout <= 1;
+					 LOin <= 1;
+					 #5 MUL <= 0; RZin <= 0; GPRout[4] <= 0; Zlowout <= 1;
             end
+				T6: begin
+					HIin <= 1;
+					#5 LOin <= 0; Zlowout <= 0; Zhighout <= 1;
+				end
         endcase
     end
 endmodule

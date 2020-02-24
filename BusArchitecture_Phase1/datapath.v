@@ -11,15 +11,16 @@ module datapath #(parameter BITS=32, REGISTERS=16, TOT_REGISTERS=REGISTERS+6, SI
 	output wire [BITS-1:0] bus,
 	output wire [BITS-1:0] MARVal,
 	output wire [(BITS*2)-1:0] RZVal,
-	output wire [BITS-1:0] IRVal
+	output wire [BITS-1:0] IRVal,
+	output wire [BITS-1:0] LOVal, HIVal
 );
 
 
 	wire [(BITS*REGISTERS)-1 : 0] genRegisterStream;
 	wire [BITS-1:0] PCVal;
 	wire [BITS-1:0] RYVal;
-	wire [BITS-1:0] HIVal;
-	wire [BITS-1:0] LOVal;
+	// wire [BITS-1:0] HIVal;
+	// wire [BITS-1:0] LOVal;
 	wire [BITS-1:0] MDRVal;
 	wire [(BITS*2)-1:0] operationResult;
 	wire [SIG_COUNT-1:0] alu_ctrl_signal;
