@@ -42,7 +42,7 @@ module datapath_tb;
     initial
     begin
         Clock = 0;
-        forever #10 Clock = ~ Clock;
+        forever #10 Clock = ~Clock;
     end
 
     always @(posedge Clock) // finite state machine; if clock rising-edge
@@ -70,7 +70,7 @@ module datapath_tb;
 					$display("Default");
 					 reset <= 1;
                 PCout <= 0; Zlowout <= 0; MDRout <= 0; MARin <= 0; RZin <= 0;
-                PCin <=0; MDRin <= 0; IRin <= 0; RYin <= 0; HIin <= 0; LOin <= 0; LOout <= 0; HIout <= 0; Zhighout <= 0; Zlowout <= 0;
+                PCin <= 0; MDRin <= 0; IRin <= 0; RYin <= 0; HIin <= 0; LOin <= 0; LOout <= 0; HIout <= 0; Zhighout <= 0; Zlowout <= 0;
                 IncPC <= 0; Read <= 0; ADD <= 0; SUB <= 0; MUL <= 0; DIV <= 0; SHR <= 0; SHL <= 0; ROR <= 0; ROL <= 0; AND <= 0; OR <= 0; NEGATE <= 0; NOT <= 0;
 					 Mdatain <= {BITS{1'b0}}; GPRin <= {REGISTERS{1'b0}}; GPRout <= {REGISTERS{1'b0}};
 					 #5 reset <= 0;
