@@ -56,7 +56,7 @@ module alu #(parameter BITS = 32, SIG_COUNT = 13)(
 	assign or_result = X || Y;
 	negate #(.BITS(BITS))  negate_inst(X, negate_result);
 	notBits #(.BITS(BITS))  notBits_inst(X, not_result);
-	carryLookAheadAdder #(.BITS(BITS)) PC_INC_ADDER (4, Y, pc_result);
+	carryLookAheadAdder #(.BITS(BITS)) PC_INC_ADDER ({BITS{1'b0}}+4, Y, pc_result);
 	
 endmodule
 		
