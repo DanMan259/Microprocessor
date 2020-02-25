@@ -19,9 +19,6 @@ module datapath_mul_tb;
 	 wire [BITS-1:0] MARVal;
 	 wire [(BITS*2)-1:0] RZVal;
 	 wire [BITS-1:0] IRVal;
-	 
-	 
-	 
 	 wire [BITS-1:0] R2Val, R4Val, R5Val, LOVal, HIVal;
 	 
 	 assign R2Val = regSelectStream[(3*BITS)-1:BITS*2];
