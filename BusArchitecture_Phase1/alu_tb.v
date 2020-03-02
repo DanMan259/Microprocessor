@@ -12,7 +12,7 @@ module alu_tb;
 	integer i;
 	
 	wire signed [(BITS*2)-1:0] OpResult;
-	alu alu_inst(ctrl_signal, X, Y, OpResult);
+	alu #(.BITS(BITS)) alu_inst(ctrl_signal, X, Y, OpResult);
 	
 	initial begin
 		X <= {BITS{1'b0}};

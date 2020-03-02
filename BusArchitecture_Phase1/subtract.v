@@ -8,8 +8,8 @@ module subtract #(parameter BITS=32)(
 
 	wire [BITS-1:0] negatedY;
 	
-	negate neg_inst(Y, negatedY);
+	negate #(.BITS(BITS)) neg_inst(Y, negatedY);
 	
-	carryLookAheadAdder cla_inst(X, negatedY, outputSub);
+	carryLookAheadAdder #(.BITS(BITS)) cla_inst(X, negatedY, outputSub);
 	
 endmodule
