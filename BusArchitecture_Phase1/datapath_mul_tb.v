@@ -6,7 +6,7 @@
 `timescale 1ns/10ps
 module datapath_mul_tb;
 
-	 parameter BITS=32, REGISTERS=16, TOT_REGISTERS=REGISTERS+6;
+	 parameter BITS=64, REGISTERS=16, TOT_REGISTERS=REGISTERS+6;
 	 reg MDRout, LOout, HIout, Zlowout, Zhighout, PCout; // add any other signals to see in your simulation
 	 reg [REGISTERS-1:0] GPRin, GPRout;
 	 reg MARin, RZin, PCin, MDRin, IRin, RYin, HIin, LOin;
