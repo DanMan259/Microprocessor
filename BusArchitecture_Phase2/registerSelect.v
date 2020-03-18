@@ -32,6 +32,9 @@ module registerSelect #(parameter BITS = 32, REGISTERS = 22)(
 			input [REGISTERS - 1 : 0] registerSelect,
 			output [BITS - 1 : 0] busMuxOut
 );
+
+	assign busMuxOut = {BITS{1'b0}};
+	
 	generate
 	genvar i;
 	for (i = 0; i < REGISTERS; i = i + 1) begin : register_selector
