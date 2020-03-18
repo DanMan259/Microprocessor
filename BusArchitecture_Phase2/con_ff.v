@@ -16,6 +16,7 @@ module con_ff  #(parameter BITS = 32)(
 			2'b10: Q <= (bus[31] == 1'b0)? 1 : 0;
 			2'b11: Q <= (bus[31] == 1'b1)? 1 : 0;
 			default: Q <= 0;
+			endcase
 		end
 		else begin
 			Q <= 0;

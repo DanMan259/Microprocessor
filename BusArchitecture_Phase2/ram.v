@@ -1,6 +1,6 @@
 // RAM
 
-module ram #(parameter BITS=32, ADDR=9, RAMSIZE=512)(
+module ram #(parameter BITS=32, RAMSIZE=512, ADDR=$clog2(RAMSIZE))(
 	input [BITS-1:0] dataIn,
 	input read,
 	input write,

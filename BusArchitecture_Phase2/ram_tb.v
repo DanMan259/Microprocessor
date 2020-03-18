@@ -3,7 +3,7 @@
 `timescale 1ns/10ps
 
 module ram_tb;
-	parameter BITS=32, ADDR=9, RAMSIZE=512;
+	parameter BITS=32, RAMSIZE=512, ADDR=$clog2(RAMSIZE);
 	
 	
 	reg [BITS-1:0] dataIn;
