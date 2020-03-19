@@ -28,12 +28,12 @@ module selectAndEncode_tb;
 		regB <= ({REGISTER_BITS{1'b0}} + 0);
 		regC <= ({REGISTER_BITS{1'b0}} + 13);
 		immediateVal <= ({immediateValLen{1'b0}}+4130);
-      Gra <= 1;
-      Grb <= 0;
+      Gra <= 0;
+      Grb <= 1;
       Grc <= 0;
-      Rin <= 0;
-      Rout <= 1;
-      BAout <= 1;
+      Rin <= 1;
+      Rout <= 0;
+      BAout <= 0;
     end
 
 endmodule

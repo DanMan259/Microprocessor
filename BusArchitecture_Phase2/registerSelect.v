@@ -25,20 +25,21 @@
 19 - HI
 20 - LO
 21 - MDR
+22 - INPUT 
 */
 
-module registerSelect #(parameter BITS = 32, REGISTERS = 22)(
+module registerSelect #(parameter BITS = 32, REGISTERS = 23)(
 			input [BITS * REGISTERS - 1 : 0] registerStream,
 			input [REGISTERS - 1 : 0] registerSelect,
+			input BAOut,
 			output [BITS - 1 : 0] busMuxOut
 );
 
-	assign busMuxOut = {BITS{1'b0}};
-	
 	generate
 	genvar i;
 	for (i = 0; i < REGISTERS; i = i + 1) begin : register_selector
-		assign busMuxOut = registerSelect[i] ? registerStream[(i+1)*BITS-1: i*BITS] : {BITS{1'bz}};
+		assign busMuxOut = registerSelect[i] ? ((BAOut && (i == 0)) ? {BITS{1'b0}} : registerStream[(i+1)*BITS-1: i*BITS]) : {BITS{1'bz}};
 	end
 	endgenerate
+
 endmodule
