@@ -13,6 +13,4 @@ module registerFile #(parameter BITS = 32, REGISTERS = 16)(
 		end
 	endgenerate	
 	
-	
-	
 endmodule

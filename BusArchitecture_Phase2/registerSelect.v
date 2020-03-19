@@ -20,12 +20,10 @@
 14 - r14
 15 - r15
 16 - pc
-17 - rZ (LOWER)
-18 - rZ (UPPER)
-19 - HI
-20 - LO
-21 - MDR
-22 - INPUT 
+17 - rZ (LOW/HIGH)
+18 - LO/HI
+20 - MDR
+21 - INPUT 
 */
 
 module registerSelect #(parameter BITS = 32, REGISTERS = 23)(

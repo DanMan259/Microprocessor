@@ -6,20 +6,21 @@
 `timescale 1ns/10ps
 module datapath_tb;
 
-	 parameter BITS=32, REGISTERS=16, TOT_REGISTERS=REGISTERS+7;
-	 reg MDRout, LOout, HIout, Zlowout, Zhighout, PCout; // add any other signals to see in your simulation
+	 parameter BITS=32, REGISTERS=16, TOT_REGISTERS=REGISTERS+5;
+	 
+	 reg INPUTout, MDRout, LOout, HIout, RZout, PCout, BAout; // add any other signals to see in your simulation
 	 reg [REGISTERS-1:0] GPRin, GPRout;
-	 reg MARin, RZin, PCin, MDRin, IRin, RYin, HIin, LOin;
-	 reg IncPC, Read, ADD, SUB, MUL, DIV, SHR, SHL, ROR, ROL, AND, OR, NEGATE, NOT;
-	 reg Clock;
-	 reg [BITS-1:0] Mdatain;
+	 reg PCin, IRin, RYin, RZin, MARin, HILOin, MDRin, OUTPUTin;
+	 reg Read, ADD, SUB, MUL, DIV, SHR, SHL, ROR, ROL, AND, OR, NEGATE, NOT, IncPC;
+	 reg clk;
+	 reg [BITS-1:0] MDataIn, INPUTUnit;
 	 reg reset;
-	 wire [(BITS*TOT_REGISTERS)-1:0] regSelectStream;
-	 wire [BITS-1:0] bus;
+	 wire [(BITS*TOT_REGISTERS)-1:0] regSelectStreamLO, regSelectStreamHI;
+	 wire [BITS-1:0] busLO, busHI;
 	 wire [BITS-1:0] MARVal;
 	 wire [(BITS*2)-1:0] RZVal;
 	 wire [BITS-1:0] IRVal;
-	 
+	 wire [BITS-1:0] OUTPUTUnit;
 	 
 	 
 	 wire [BITS-1:0] R2Val, R4Val, R5Val, LOVal, HIVal;
@@ -34,27 +35,30 @@ module datapath_tb;
 								 reg [3:0] Present_state = Default;
 								 
 	datapath #(.BITS(BITS), .REGISTERS(REGISTERS)) DUT(
-			reset, Clock, 
+			reset, clk,
 			GPRin, 
-			PCin, IRin, RYin, RZin, MARin, HIin, LOin, MDRin, Read, MDRout, LOout, HIout, Zhighout, Zlowout, PCout, 
+			PCin, IRin, RYin, RZin, MARin, HILOin, MDRin, OUTPUTin, Read, INPUTout, MDRout, LOout, HIout, RZout, PCout, 
+			BAout,
 			GPRout, 
-			ADD, SUB, MUL, DIV, SHR, SHL, ROR, ROL, AND, OR, NEGATE, NOT, IncPC, 
-			Mdatain, 
-			regSelectStream, 
-			bus, 
-			MARVal, 
-			RZVal, 
+			ADD, SUB, MUL, DIV, SHR, SHL, ROR, ROL, AND, OR, NEGATE, NOT, IncPC,
+			MDataIn,
+			INPUTUnit,
+			regSelectStreamLO, regSelectStreamHI,
+			busLO, busHI,
+			MARVal,
+			RZVal,
 			IRVal,
-			LOVal, HIVal);
+			LOVal, HIVal,
+			OUTPUTUnit);
 	
 	// add test logic here
     initial
     begin
-        Clock = 0;
-        forever #10 Clock = ~Clock;
+        clk = 0;
+        forever #10 clk = ~clk;
     end
 
-    always @(posedge Clock) // finite state machine; if clock rising-edge
+    always @(posedge clk) // finite state machine; if clock rising-edge
     begin
         case (Present_state)
             Default : Present_state = Reg_load1a;
