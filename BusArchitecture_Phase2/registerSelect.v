@@ -26,7 +26,7 @@
 21 - INPUT 
 */
 
-module registerSelect #(parameter BITS = 32, REGISTERS = 23)(
+module registerSelect #(parameter BITS = 32, REGISTERS = 21)(
 			input [BITS * REGISTERS - 1 : 0] registerStream,
 			input [REGISTERS - 1 : 0] registerSelect,
 			input BAOut,

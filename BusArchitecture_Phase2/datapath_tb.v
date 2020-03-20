@@ -8,7 +8,7 @@ module datapath_tb;
 
 	 parameter BITS=32, REGISTERS=16, TOT_REGISTERS=REGISTERS+5;
 	 
-	 reg INPUTout, MDRout, LOout, HIout, RZout, PCout, BAout; // add any other signals to see in your simulation
+	 reg INPUTout, MDRout, HILOout, RZout, PCout, BAout; // add any other signals to see in your simulation
 	 reg [REGISTERS-1:0] GPRin, GPRout;
 	 reg PCin, IRin, RYin, RZin, MARin, HILOin, MDRin, OUTPUTin;
 	 reg Read, ADD, SUB, MUL, DIV, SHR, SHL, ROR, ROL, AND, OR, NEGATE, NOT, IncPC;
@@ -25,19 +25,20 @@ module datapath_tb;
 	 
 	 wire [BITS-1:0] R2Val, R4Val, R5Val, LOVal, HIVal;
 	 
-	 assign R2Val = regSelectStream[(3*BITS)-1:BITS*2];
-	 assign R4Val = regSelectStream[(5*BITS)-1:BITS*4];
-	 assign R5Val = regSelectStream[(6*BITS)-1:BITS*5];
+	 assign R2Val = regSelectStreamLO[(3*BITS)-1:BITS*2];
+	 assign R4Val = regSelectStreamLO[(5*BITS)-1:BITS*4];
+	 assign R5Val = regSelectStreamLO[(6*BITS)-1:BITS*5];
 	 
-	 parameter Default = 4'b0000, Reg_load1a = 4'b0001, Reg_load1b = 4'b0010, Reg_load2a = 4'b0011,
-								 Reg_load2b = 4'b0100, Reg_load3a = 4'b0101, Reg_load3b = 4'b0110, T0 = 4'b0111,
-								 T1 = 4'b1000, T2 = 4'b1001, T3 = 4'b1010, T4 = 4'b1011, T5 = 4'b1100;
-								 reg [3:0] Present_state = Default;
+	 parameter Default = 4'b0000, Reg_load1a = 4'b0001, Reg_load1b = 4'b0010, Reg_load2a = 4'b0011, 
+	           Reg_load2b = 4'b0100, Reg_load3a = 4'b0101, Reg_load3b = 4'b0110, T0 = 4'b0111,
+	           T1 = 4'b1000, T2 = 4'b1001, T3 = 4'b1010, T4 = 4'b1011, T5 = 4'b1100;
+    
+	 reg [3:0] Present_state = Default;
 								 
-	datapath #(.BITS(BITS), .REGISTERS(REGISTERS)) DUT(
+    datapath #(.BITS(BITS), .REGISTERS(REGISTERS)) DUT(
 			reset, clk,
 			GPRin, 
-			PCin, IRin, RYin, RZin, MARin, HILOin, MDRin, OUTPUTin, Read, INPUTout, MDRout, LOout, HIout, RZout, PCout, 
+			PCin, IRin, RYin, RZin, MARin, HILOin, MDRin, OUTPUTin, Read, INPUTout, MDRout, HILOout, RZout, PCout, 
 			BAout,
 			GPRout, 
 			ADD, SUB, MUL, DIV, SHR, SHL, ROR, ROL, AND, OR, NEGATE, NOT, IncPC,
@@ -51,7 +52,7 @@ module datapath_tb;
 			LOVal, HIVal,
 			OUTPUTUnit);
 	
-	// add test logic here
+
     initial
     begin
         clk = 0;
@@ -80,16 +81,21 @@ module datapath_tb;
     begin
         case (Present_state) // assert the required signals in each clock cycle
             Default: begin
-					$display("Default");
-					 reset <= 1;
-                PCout <= 0; Zlowout <= 0; MDRout <= 0; MARin <= 0; RZin <= 0;
-                PCin <= 0; MDRin <= 0; IRin <= 0; RYin <= 0; HIin <= 0; LOin <= 0; LOout <= 0; HIout <= 0; Zhighout <= 0; Zlowout <= 0;
-                IncPC <= 0; Read <= 0; ADD <= 0; SUB <= 0; MUL <= 0; DIV <= 0; SHR <= 0; SHL <= 0; ROR <= 0; ROL <= 0; AND <= 0; OR <= 0; NEGATE <= 0; NOT <= 0;
-					 Mdatain <= {BITS{1'b0}}; GPRin <= {REGISTERS{1'b0}}; GPRout <= {REGISTERS{1'b0}};
+					 reset <= 1;  
+                GPRin <= {REGISTERS{1'b0}};
+					 PCin <= 0; IRin <= 0; RYin <= 0; RZin <= 0; MARin <= 0; HILOin <= 0; MDRin <= 0; OUTPUTin <= 0;
+					 Read <= 0;
+					 INPUTout <= 0; MDRout <= 0; HILOout <= 0; RZout <= 0; PCout <= 0;
+					 BAout <= 0;
+					 GPRout <= {REGISTERS{1'b0}};
+                ADD <= 0; SUB <= 0; MUL <= 0; DIV <= 0; SHR <= 0; SHL <= 0; ROR <= 0; ROL <= 0; AND <= 0; OR <= 0; NEGATE <= 0; NOT <= 0; IncPC <= 0; 
+					 MDataIn <= {BITS{1'b0}};
+					 INPUTUnit <= {BITS{1'b0}};
 					 #5 reset <= 0;
             end
             Reg_load1a: begin
-                Mdatain <= 'h22;
+                //MDataIn <= 'h22;
+					 MDataIn <= 'b1000000000000001100000000000000;
                 Read = 1; MDRin = 1;
             end
             Reg_load1b: begin
@@ -97,7 +103,7 @@ module datapath_tb;
                 #5 MDRin <= 0;
             end
             Reg_load2a: begin
-                Mdatain <= 'h24;
+                MDataIn <= 'h24;
                 #5 MDRout <= 0; GPRin[2] <= 0; MDRin <= 1;
             end
             Reg_load2b: begin
@@ -105,7 +111,7 @@ module datapath_tb;
                 #5 MDRin <= 0;
             end
             Reg_load3a: begin
-                Mdatain <= 'h26;
+                MDataIn <= 'h26;
                 #5 MDRin <= 1; MDRout <= 0; GPRin[4] <= 0;
             end
             Reg_load3b: begin
@@ -113,30 +119,33 @@ module datapath_tb;
                 #5 MDRin <= 0;
             end
             T0: begin 
-					$display("T0");
                 MARin <= 1; IncPC <= 1; RZin <= 1;
 					 #5 GPRin[5] <= 0; MDRout <= 0; PCout <= 1;
             end
             T1: begin
-					Read <= 1; Mdatain <= 'h4A920000; // OP code for AND R5, R2, R4
+					Read <= 1; MDataIn <= 'h4A920000; // OP code for AND R5, R2, R4
 					PCin <= 1; MDRin <= 1;
-					#5 Zlowout <= 1; PCout <= 0; MARin <= 0; IncPC <= 0; RZin <= 0;
+					#5 RZout <= 1; PCout <= 0; MARin <= 0; IncPC <= 0; RZin <= 0;
             end
             T2: begin
 					IRin <= 1;
-					#5 PCin <= 0; Zlowout <= 0; MDRout <= 1; MDRin <= 0;
+					#5 PCin <= 0; RZout <= 0; MDRout <= 1; MDRin <= 0;
             end
             T3: begin
 					 RYin <= 1;
 					 #5 IRin <= 0; MDRout <= 0; GPRout[2] <= 1;
             end
             T4: begin
-					 AND <= 1; RZin <= 1;
+					 //AND <= 1; RZin <= 1;
+					 //#5 RYin <= 0; GPRout[2] <= 0; GPRout[4] <= 1;
+					 DIV <= 1; RZin <= 1;
 					 #5 RYin <= 0; GPRout[2] <= 0; GPRout[4] <= 1;
             end
             T5: begin
-					 GPRin[5] <= 1;
-					 #5 AND <= 0; RZin <= 0; GPRout[4] <= 0; Zlowout <= 1;
+					 //GPRin[5] <= 1;
+					 //#5 AND <= 0; RZin <= 0; GPRout[4] <= 0; RZout <= 1;
+					 HILOin <= 1;
+					 #5 DIV <= 0; RZin <= 0; GPRout[4] <= 0; RZout <= 1;
             end
         endcase
     end

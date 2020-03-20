@@ -42,9 +42,9 @@ module datapath #(parameter BITS=32, REGISTERS=16, TOT_REGISTERS=REGISTERS+5, SI
 	assign regSelectStreamHI = {{BITS{1'bz}}, {BITS{1'bz}}, HIVal, RZVal[(2*BITS)-1:BITS], {BITS{1'bz}}, {(BITS*REGISTERS){1'bz}}};
 	assign alu_ctrl_signal = {IncPC, NOT, NEGATE, OR, AND, ROL, ROR, SHL, SHR, DIV, MUL, SUB, ADD};
 	
-	registerFile #(.BITS(BITS), .REGISTERS(REGISTERS)) genPurposeRegs(bus, clk, {REGISTERS{reset}}, GPRin, genRegisterStream);
+	registerFile #(.BITS(BITS), .REGISTERS(REGISTERS)) genPurposeRegs(busLO, clk, {REGISTERS{reset}}, GPRin, genRegisterStream);
 	registerSelect #(.BITS(BITS), .REGISTERS(TOT_REGISTERS)) regSelectLO(regSelectStreamLO, {INPUTout, MDRout, HILOout, RZout, PCout, GPRout}, BAout, busLO);
 	registerSelect #(.BITS(BITS), .REGISTERS(TOT_REGISTERS)) regSelectHI(regSelectStreamHI, {INPUTout, MDRout, HILOout, RZout, PCout, GPRout}, BAout, busHI);
-	alu #(.BITS(BITS), .SIG_COUNT(SIG_COUNT)) alu_inst(alu_ctrl_signal, RYVal, bus, operationResult);
+	alu #(.BITS(BITS), .SIG_COUNT(SIG_COUNT)) alu_inst(alu_ctrl_signal, RYVal, busLO, operationResult);
 	
 endmodule
