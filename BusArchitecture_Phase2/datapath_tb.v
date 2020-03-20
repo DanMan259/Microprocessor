@@ -95,7 +95,7 @@ module datapath_tb;
             end
             Reg_load1a: begin
                 //MDataIn <= 'h22;
-					 MDataIn <= 'b1000000000000001100000000000000;
+					 MDataIn <= 'd13;
                 Read = 1; MDRin = 1;
             end
             Reg_load1b: begin
@@ -103,7 +103,7 @@ module datapath_tb;
                 #5 MDRin <= 0;
             end
             Reg_load2a: begin
-                MDataIn <= 'h24;
+                MDataIn <= 'd4;
                 #5 MDRout <= 0; GPRin[2] <= 0; MDRin <= 1;
             end
             Reg_load2b: begin
@@ -138,14 +138,14 @@ module datapath_tb;
             T4: begin
 					 //AND <= 1; RZin <= 1;
 					 //#5 RYin <= 0; GPRout[2] <= 0; GPRout[4] <= 1;
-					 DIV <= 1; RZin <= 1;
+					 ADD <= 1; RZin <= 1;
 					 #5 RYin <= 0; GPRout[2] <= 0; GPRout[4] <= 1;
             end
             T5: begin
-					 //GPRin[5] <= 1;
+					 GPRin[5] <= 1;
 					 //#5 AND <= 0; RZin <= 0; GPRout[4] <= 0; RZout <= 1;
-					 HILOin <= 1;
-					 #5 DIV <= 0; RZin <= 0; GPRout[4] <= 0; RZout <= 1;
+					 //HILOin <= 1;
+					 #5 ADD <= 0; RZin <= 0; GPRout[4] <= 0; RZout <= 1;
             end
         endcase
     end

@@ -25,6 +25,7 @@ module datapath #(parameter BITS=32, REGISTERS=16, TOT_REGISTERS=REGISTERS+5, SI
 	wire [BITS-1:0] MDRVal;
 	wire [(BITS*2)-1:0] operationResult;
 	wire [SIG_COUNT-1:0] alu_ctrl_signal;
+	wire [BITS-1:0] INVal;
 	 
 	register #(.BITS(BITS)) PC(clk, reset, PCin, busLO, PCVal);
 	register #(.BITS(BITS)) IR(clk, reset, IRin, busLO, IRVal);
@@ -34,7 +35,7 @@ module datapath #(parameter BITS=32, REGISTERS=16, TOT_REGISTERS=REGISTERS+5, SI
 	register #(.BITS(BITS)) HI(clk, reset, HILOin, busHI, HIVal);
 	register #(.BITS(BITS)) LO(clk, reset, HILOin, busLO, LOVal);
 	register #(.BITS(BITS)) OUTPUT(clk, reset, OUTPUTin, busLO, OUTPUTUnit);
-	register #(.BITS(BITS)) INPUT(clk, reset, 1, INPUTUnit, INVal); // NOT SURE ABOUT THIS ONE. MAYBE NEEDS TO BE LIKE MDR IN ITS OWN MODULE
+	register #(.BITS(BITS)) INPUT(clk, reset, 1'b1, INPUTUnit, INVal); // NOT SURE ABOUT THIS ONE. MAYBE NEEDS TO BE LIKE MDR IN ITS OWN MODULE
 	mdr #(.BITS(BITS)) MDR(busLO, MDataIn, Read, clk, reset, MDRin, MDRVal);
 	
 	//assign regSelectStream = {INVal, MDRVal, LOVal, HIVal, RZVal[(BITS*2)-1:BITS], RZVal[BITS-1:0], PCVal, genRegisterStream};
