@@ -1,9 +1,9 @@
 // Datapath
 																																																																		
-module datapath #(parameter BITS=32, REGISTERS=16, TOT_REGISTERS=REGISTERS+5, SIG_COUNT=13)(
+module datapath #(parameter BITS=32, REGISTERS=16, RAMSIZE= 512, TOT_REGISTERS=REGISTERS+5, SIG_COUNT=13)(
 	input reset, clk,
 	input [REGISTERS-1:0] GPRin, 
-	input PCin, IRin, RYin, RZin, MARin, HILOin, MDRin, OUTPUTin, Read, INPUTout, MDRout, HILOout, RZout, PCout, 
+	input PCin, IRin, RYin, RZin, MARin, HILOin, MDRin, OUTPUTin, Read, Write, INPUTout, MDRout, HILOout, RZout, PCout, 
 	input BAout,
 	input [REGISTERS-1:0] GPRout, 
 	input ADD, SUB, MUL, DIV, SHR, SHL, ROR, ROL, AND, OR, NEGATE, NOT, IncPC,
@@ -37,6 +37,8 @@ module datapath #(parameter BITS=32, REGISTERS=16, TOT_REGISTERS=REGISTERS+5, SI
 	register #(.BITS(BITS)) OUTPUT(clk, reset, OUTPUTin, busLO, OUTPUTUnit);
 	register #(.BITS(BITS)) INPUT(clk, reset, 1'b1, INPUTUnit, INVal); // NOT SURE ABOUT THIS ONE. MAYBE NEEDS TO BE LIKE MDR IN ITS OWN MODULE
 	mdr #(.BITS(BITS)) MDR(busLO, MDataIn, Read, clk, reset, MDRin, MDRVal);
+	
+	ram #(.BITS(BITS), .RAMSIZE(RAMSIZE))RAM(busLO, Read, Write, MarVal, clk, MDataIn); // Maybe a fan out warning but should be fine //Not sure if this works
 	
 	//assign regSelectStream = {INVal, MDRVal, LOVal, HIVal, RZVal[(BITS*2)-1:BITS], RZVal[BITS-1:0], PCVal, genRegisterStream};
 	assign regSelectStreamLO = {INVal, MDRVal, LOVal, RZVal[BITS-1:0], PCVal, genRegisterStream};

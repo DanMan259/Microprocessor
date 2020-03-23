@@ -11,7 +11,7 @@ module datapath_tb;
 	 reg INPUTout, MDRout, HILOout, RZout, PCout, BAout; // add any other signals to see in your simulation
 	 reg [REGISTERS-1:0] GPRin, GPRout;
 	 reg PCin, IRin, RYin, RZin, MARin, HILOin, MDRin, OUTPUTin;
-	 reg Read, ADD, SUB, MUL, DIV, SHR, SHL, ROR, ROL, AND, OR, NEGATE, NOT, IncPC;
+	 reg Read, Write, ADD, SUB, MUL, DIV, SHR, SHL, ROR, ROL, AND, OR, NEGATE, NOT, IncPC;
 	 reg clk;
 	 reg [BITS-1:0] MDataIn, INPUTUnit;
 	 reg reset;
@@ -38,7 +38,7 @@ module datapath_tb;
     datapath #(.BITS(BITS), .REGISTERS(REGISTERS)) DUT(
 			reset, clk,
 			GPRin, 
-			PCin, IRin, RYin, RZin, MARin, HILOin, MDRin, OUTPUTin, Read, INPUTout, MDRout, HILOout, RZout, PCout, 
+			PCin, IRin, RYin, RZin, MARin, HILOin, MDRin, OUTPUTin, Read, Write, INPUTout, MDRout, HILOout, RZout, PCout, 
 			BAout,
 			GPRout, 
 			ADD, SUB, MUL, DIV, SHR, SHL, ROR, ROL, AND, OR, NEGATE, NOT, IncPC,
