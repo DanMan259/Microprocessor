@@ -17,7 +17,7 @@ module selectAndEncode #(parameter BITS = 32, REGISTERS = 16, REGISTER_BITS = $c
 	 // I-Format, so we always assume Immediate bits end where regC is suppose
 	 // to end. Do not read the sign extended output unless in I Format
     //assign c_sign_extended = {{(BITS-Unused){IR[Unused]}}, IR[Unused:0]};
-	 assign c_sign_extended = {{(BITS-regC){IR[regC]}}, IR[regC:0]};
+	 assign c_sign_extended = {{(BITS-1-regC){IR[regC]}}, IR[regC:0]};
 	 
     wire [REGISTER_BITS-1:0] decoder_in;
 	 assign decoder_in = (IR[regA:regB+1]&{REGISTER_BITS{Gra}}) | (IR[regB:regC+1]&{REGISTER_BITS{Grb}}) | (IR[regC:Unused+1]&{REGISTER_BITS{Grc}});

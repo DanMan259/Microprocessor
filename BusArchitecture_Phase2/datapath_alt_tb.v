@@ -1,6 +1,6 @@
 // Datapath_alt_tb
 
-`timescale 1ns/10ps
+/*`timescale 1ns/10ps
 
 module datapath_alt_tb;
 	 parameter BITS=32, REGISTERS=16, TOT_REGISTERS=REGISTERS+5;
@@ -18,6 +18,7 @@ module datapath_alt_tb;
 	 wire [(BITS*2)-1:0] RZVal;
 	 wire [BITS-1:0] IRVal;
 	 wire [BITS-1:0] OUTPUTUnit;
+	 wire [BITS-1:0] c_sign_extended;
 	 
     datapath #(.BITS(BITS), .REGISTERS(REGISTERS)) DUT(
 			reset, clk,
@@ -34,7 +35,7 @@ module datapath_alt_tb;
 			RZVal,
 			IRVal,
 			LOVal, HIVal,
-			OUTPUTUnit);
+			OUTPUTUnit, c_sign_extended);
 	
 
     initial
@@ -58,4 +59,4 @@ module datapath_alt_tb;
 		#5 reset <= 0;
 	end
 	
-endmodule
+endmodule*/

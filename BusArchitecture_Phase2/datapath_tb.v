@@ -3,13 +3,12 @@
 // and datapath_tb.v file: <This is the filename>
 
 // This file does AND R5, R2, R4
-`timescale 1ns/10ps
+/*`timescale 1ns/10ps
 module datapath_tb;
 
 	 parameter BITS=32, REGISTERS=16, TOT_REGISTERS=REGISTERS+5;
 	 
-	 reg INPUTout, MDRout, HILOout, RZout, PCout, BAout; // add any other signals to see in your simulation
-	 reg [REGISTERS-1:0] GPRin, GPRout;
+	 reg INPUTout, MDRout, HILOout, RZout, PCout, BAout, Gra, Grb, Grc, Rout, Rin; // add any other signals to see in your simulation
 	 reg PCin, IRin, RYin, RZin, MARin, HILOin, MDRin, OUTPUTin;
 	 reg Read, Write, ADD, SUB, MUL, DIV, SHR, SHL, ROR, ROL, AND, OR, NEGATE, NOT, IncPC;
 	 reg clk;
@@ -21,6 +20,7 @@ module datapath_tb;
 	 wire [(BITS*2)-1:0] RZVal;
 	 wire [BITS-1:0] IRVal;
 	 wire [BITS-1:0] OUTPUTUnit;
+	 wire [BITS-1:0] c_sign_extended;
 	 
 	 
 	 wire [BITS-1:0] R2Val, R4Val, R5Val, LOVal, HIVal;
@@ -37,10 +37,8 @@ module datapath_tb;
 								 
     datapath #(.BITS(BITS), .REGISTERS(REGISTERS)) DUT(
 			reset, clk,
-			GPRin, 
 			PCin, IRin, RYin, RZin, MARin, HILOin, MDRin, OUTPUTin, Read, Write, INPUTout, MDRout, HILOout, RZout, PCout, 
-			BAout,
-			GPRout, 
+			BAout, Gra, Grb, Grc, Rout, Rin,
 			ADD, SUB, MUL, DIV, SHR, SHL, ROR, ROL, AND, OR, NEGATE, NOT, IncPC,
 			MDataIn,
 			INPUTUnit,
@@ -50,7 +48,7 @@ module datapath_tb;
 			RZVal,
 			IRVal,
 			LOVal, HIVal,
-			OUTPUTUnit);
+			OUTPUTUnit, c_sign_extended);
 	
 
     initial
@@ -150,3 +148,4 @@ module datapath_tb;
         endcase
     end
 endmodule
+*/

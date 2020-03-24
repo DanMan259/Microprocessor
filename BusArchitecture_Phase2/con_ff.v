@@ -7,16 +7,19 @@ module con_ff  #(parameter BITS = 32)(
     output reg Q
 );
 
-   always @ (bus, IR_C2, CON_enable) begin
-		if(CON_enable == 1) begin
-			case(IR_C2)
-				2'b00: Q <= (bus == 0)? 1 : 0;
-				2'b01: Q <= (bus != 0)? 1 : 0;
-				2'b10: Q <= (bus[BITS-1] == 1'b0)? 1 : 0;
-				2'b11: Q <= (bus[BITS-1] == 1'b1)? 1 : 0;
-				default: Q <= 0;
-			endcase
-		end
-		else Q <= 0;
+	reg con_d;
+	
+   always @ (bus, IR_C2) begin
+		case(IR_C2)
+			2'b00: con_d <= (bus == 0)? 1 : 0;
+			2'b01: con_d <= (bus != 0)? 1 : 0;
+			2'b10: con_d <= (bus[BITS-1] == 1'b0)? 1 : 0;
+			2'b11: con_d <= (bus[BITS-1] == 1'b1)? 1 : 0;
+			default: con_d <= 0;
+		endcase
+	end
+	
+	always @(posedge CON_enable) begin
+		Q <= con_d;
 	end
 endmodule
