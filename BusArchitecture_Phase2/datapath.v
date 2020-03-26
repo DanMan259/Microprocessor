@@ -1,8 +1,8 @@
 // Datapath
 																																																																		
 module datapath #(parameter BITS=32, REGISTERS=16, RAMSIZE= 512, TOT_REGISTERS=REGISTERS+6, SIG_COUNT=13)(
-	input reset, clk,
-	input PCin, IRin, RYin, RZin, MARin, HILOin, MDRin, OUTPUTin, Read, Write, INPUTout, MDRout, HILOout, RZout, PCout, Cout,
+	input reset, clk, rClk,
+	input CONin, PCin, IRin, RYin, RZin, MARin, HILOin, MDRin, OUTPUTin, Read, Write, INPUTout, MDRout, HILOout, RZout, PCout, Cout,
 	input BAout, Gra, Grb, Grc, Rout, Rin,
 	input ADD, SUB, MUL, DIV, SHR, SHL, ROR, ROL, AND, OR, NEGATE, NOT, IncPC,
 	input [BITS-1:0] INPUTUnit,
@@ -13,8 +13,7 @@ module datapath #(parameter BITS=32, REGISTERS=16, RAMSIZE= 512, TOT_REGISTERS=R
 	output wire [BITS-1:0] IRVal,
 	output wire [BITS-1:0] LOVal, HIVal,
 	output wire [BITS-1:0] OUTPUTUnit,
-	output wire [BITS-1:0] c_sign_extended,
-	output wire [BITS-1:0] MDataIn
+	output wire [BITS-1:0] c_sign_extended
 );
 	localparam ADDR = $clog2(RAMSIZE);
 
@@ -26,6 +25,8 @@ module datapath #(parameter BITS=32, REGISTERS=16, RAMSIZE= 512, TOT_REGISTERS=R
 	wire [SIG_COUNT-1:0] alu_ctrl_signal;
 	wire [BITS-1:0] INVal;
 	wire [REGISTERS-1:0] GPRin, GPRout;
+	wire CON;
+	wire [BITS-1:0] MDataIn;
 	 
 	register #(.BITS(BITS)) PC(clk, reset, PCin, busLO, PCVal);
 	register #(.BITS(BITS)) IR(clk, reset, IRin, busLO, IRVal);
@@ -38,7 +39,7 @@ module datapath #(parameter BITS=32, REGISTERS=16, RAMSIZE= 512, TOT_REGISTERS=R
 	register #(.BITS(BITS)) INPUT(clk, reset, 1'b1, INPUTUnit, INVal); // NOT SURE ABOUT THIS ONE. MAYBE NEEDS TO BE LIKE MDR IN ITS OWN MODULE
 	mdr #(.BITS(BITS)) MDR(busLO, MDataIn, Read, clk, reset, MDRin, MDRVal);
 	
-	ram2 #(.BITS(BITS), .RAMSIZE(RAMSIZE), .ADDR(ADDR))RAM(busLO, Read, Write, MARVal[ADDR-1:0], clk, MDataIn); // Maybe a fan out warning but should be fine //Not sure if this works
+	ram #(.BITS(BITS), .RAMSIZE(RAMSIZE), .ADDR(ADDR))RAM(busLO, Read, Write, MARVal[ADDR-1:0], rClk, MDataIn); // Maybe a fan out warning but should be fine //Not sure if this works
 	
 	//assign regSelectStream = {INVal, MDRVal, LOVal, HIVal, RZVal[(BITS*2)-1:BITS], RZVal[BITS-1:0], PCVal, genRegisterStream};
 	assign regSelectStreamLO = {c_sign_extended,INVal, MDRVal, LOVal, RZVal[BITS-1:0], PCVal, genRegisterStream};
@@ -50,5 +51,6 @@ module datapath #(parameter BITS=32, REGISTERS=16, RAMSIZE= 512, TOT_REGISTERS=R
 	registerSelect #(.BITS(BITS), .REGISTERS(TOT_REGISTERS)) regSelectLO(regSelectStreamLO, {Cout, INPUTout, MDRout, HILOout, RZout, PCout, GPRout}, BAout, busLO);
 	registerSelect #(.BITS(BITS), .REGISTERS(TOT_REGISTERS)) regSelectHI(regSelectStreamHI, {Cout, INPUTout, MDRout, HILOout, RZout, PCout, GPRout}, BAout, busHI);
 	alu #(.BITS(BITS), .SIG_COUNT(SIG_COUNT)) alu_inst(alu_ctrl_signal, RYVal, busLO, operationResult);
+	con_ff #(.BITS(BITS)) con_ff_inst(busLO, IRVal[20:19], CONin, CON);
 	
 endmodule

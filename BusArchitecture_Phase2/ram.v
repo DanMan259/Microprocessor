@@ -14,7 +14,7 @@ module ram #(parameter BITS=32, RAMSIZE=512, ADDR=$clog2(RAMSIZE))(
 	initial begin
 		RAM[0] <= 32'b00000_0000_0000_0000000000000000000;
 		RAM[4] <= 32'b00000_0001_0000_0000000000001010101;
-		
+		RAM[85] <= 32'h0000f7f7;
 	end
 
 	always @ (posedge clk) begin

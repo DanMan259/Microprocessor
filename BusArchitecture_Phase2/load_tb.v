@@ -7,9 +7,9 @@ module load_tb;
 	 parameter BITS=32, REGISTERS=16, TOT_REGISTERS=REGISTERS+6;
 	 
 	 reg INPUTout, MDRout, HILOout, RZout, PCout, Cout, BAout, Gra, Grb, Grc, Rout, Rin; // add any other signals to see in your simulation
-	 reg PCin, IRin, RYin, RZin, MARin, HILOin, MDRin, OUTPUTin;
+	 reg CONin, PCin, IRin, RYin, RZin, MARin, HILOin, MDRin, OUTPUTin;
 	 reg Read, Write, ADD, SUB, MUL, DIV, SHR, SHL, ROR, ROL, AND, OR, NEGATE, NOT, IncPC;
-	 reg clk;
+	 reg clk, rClk;
 	 reg [BITS-1:0] INPUTUnit;
 	 reg reset;
 	 wire [(BITS*TOT_REGISTERS)-1:0] regSelectStreamLO, regSelectStreamHI;
@@ -19,14 +19,12 @@ module load_tb;
 	 wire [BITS-1:0] IRVal;
 	 wire [BITS-1:0] OUTPUTUnit;
 	 wire [BITS-1:0] c_sign_extended;
-	 wire [BITS-1:0] MDataIn;
 	 
 	 
-	 wire [BITS-1:0] R2Val, R4Val, R5Val, LOVal, HIVal;
+	 wire [BITS-1:0] R0Val, R1Val, LOVal, HIVal;
 	 
-	 assign R2Val = regSelectStreamLO[(3*BITS)-1:BITS*2];
-	 assign R4Val = regSelectStreamLO[(5*BITS)-1:BITS*4];
-	 assign R5Val = regSelectStreamLO[(6*BITS)-1:BITS*5];
+	 assign R0Val = regSelectStreamLO[(1*BITS)-1:BITS*0];
+	 assign R1Val = regSelectStreamLO[(2*BITS)-1:BITS*1];
 	 
 	 /*parameter Default = 4'b0000, Reg_load1a = 4'b0001, Reg_load1b = 4'b0010, Reg_load2a = 4'b0011, 
 	           Reg_load2b = 4'b0100, Reg_load3a = 4'b0101, Reg_load3b = 4'b0110, T0 = 4'b0111,
@@ -34,13 +32,14 @@ module load_tb;
 				  
 	parameter Default = 4'b0000, T0 = 4'b0001, T1 = 4'b0010, T2 = 4'b0011, 
 			  T3 = 4'b0100, T4 = 4'b0101, T5 = 4'b0110, T6 = 4'b0111,
-			  T7 = 4'b1000;
+			  T7 = 4'b1000, T8 = 4'b1001, T9 = 4'b1010;
     
 	 reg [3:0] Present_state = Default;
+	 reg preload_reg = 1'b0;
 								 
     datapath #(.BITS(BITS), .REGISTERS(REGISTERS)) DUT(
-			reset, clk,
-			PCin, IRin, RYin, RZin, MARin, HILOin, MDRin, OUTPUTin, Read, Write, INPUTout, MDRout, HILOout, RZout, PCout, Cout, 
+			reset, clk, rClk,
+			CONin, PCin, IRin, RYin, RZin, MARin, HILOin, MDRin, OUTPUTin, Read, Write, INPUTout, MDRout, HILOout, RZout, PCout, Cout, 
 			BAout, Gra, Grb, Grc, Rout, Rin,
 			ADD, SUB, MUL, DIV, SHR, SHL, ROR, ROL, AND, OR, NEGATE, NOT, IncPC,
 			INPUTUnit,
@@ -50,32 +49,37 @@ module load_tb;
 			RZVal,
 			IRVal,
 			LOVal, HIVal,
-			OUTPUTUnit, c_sign_extended, MDataIn);
+			OUTPUTUnit, c_sign_extended);
 	
 
-    initial
-    begin
+    initial begin
         clk = 0;
         forever #10 clk = ~clk;
     end
+	 
+	 initial begin
+			rClk = 1;
+			forever #5 rClk = ~rClk;
+	 end
 
     always @(posedge clk) // finite state machine; if clock rising-edge
     begin
         case (Present_state)
             Default : Present_state = T0;
-            /*Reg_load1a : Present_state = Reg_load1b;
-            Reg_load1b : Present_state = Reg_load2a;
-            Reg_load2a : Present_state = Reg_load2b;
-            Reg_load2b : Present_state = Reg_load3a;
-            Reg_load3a : Present_state = Reg_load3b;
-            Reg_load3b : Present_state = T0;*/
             T0 : Present_state = T1;
             T1 : Present_state = T2;
-            T2 : Present_state = T3;
+            T2 : begin
+						if(preload_reg == 1)
+							Present_state = T5;
+						else	
+							Present_state = T3;
+				end
             T3 : Present_state = T4;
-            T4 : Present_state = T5;
+            T4 : Present_state = T1;
 				T5 : Present_state = T6;
 				T6 : Present_state = T7;
+				T7 : Present_state = T8;
+				T8 : Present_state = T9;
         endcase
     end
 	 
@@ -84,7 +88,7 @@ module load_tb;
         case (Present_state) // assert the required signals in each clock cycle
             Default: begin
 					 reset <= 1;  
-					 PCin <= 0; IRin <= 0; RYin <= 0; RZin <= 0; MARin <= 0; HILOin <= 0; MDRin <= 0; OUTPUTin <= 0;
+					 CONin <= 0; PCin <= 0; IRin <= 0; RYin <= 0; RZin <= 0; MARin <= 0; HILOin <= 0; MDRin <= 0; OUTPUTin <= 0;
 					 Read <= 0; Write <= 0;
 					 INPUTout <= 0; MDRout <= 0; HILOout <= 0; RZout <= 0; PCout <= 0; Cout <= 0;
 					 BAout <= 0; Gra <= 0; Grb <= 0; Grc <= 0; Rout <= 0; Rin <= 0;
@@ -92,40 +96,8 @@ module load_tb;
 					 INPUTUnit <= {BITS{1'b0}};
 					 #5 reset <= 0;
             end
-				/*LoadRam1: begin
-					dataIn <= 'h5;
-					address <= 'h3;
-					write <= 1;
-					read <= 0;
-				end
-            Reg_load1a: begin
-                //MDataIn <= 'h22;
-					 MDataIn <= 'd13;
-                Read = 1; MDRin = 1;
-            end
-            Reg_load1b: begin
-					 MDRout <= 1; GPRin[2] <= 1;
-                #5 MDRin <= 0;
-            end
-            Reg_load2a: begin
-                MDataIn <= 'd4;
-                #5 MDRout <= 0; GPRin[2] <= 0; MDRin <= 1;
-            end
-            Reg_load2b: begin
-					 GPRin[4] <= 1; MDRout <= 1;
-                #5 MDRin <= 0;
-            end
-            Reg_load3a: begin
-                MDataIn <= 'h26;
-                #5 MDRin <= 1; MDRout <= 0; GPRin[4] <= 0;
-            end
-            Reg_load3b: begin
-					 GPRin[5] <= 1; MDRout <= 1;
-                #5 MDRin <= 0;
-            end*/
             T0: begin 
-                MARin <= 1; IncPC <= 1; RZin <= 1;
-					 #5 /*MDRout <= 0;*/ PCout <= 1;
+                MARin <= 1; IncPC <= 1; RZin <= 1; PCout <= 1;
             end
             T1: begin
 					Read <= 1; 
@@ -134,32 +106,35 @@ module load_tb;
             end
             T2: begin
 					IRin <= 1;
-					#5 PCin <= 0; RZout <= 0; MDRout <= 1; MDRin <= 0; 
+					#5 PCin <= 0; RZout <= 0; MDRout <= 1; MDRin <= 0; Read <= 0;
             end
-            T3: begin
-					 RYin <= 1; Grb <= 1; BAout <= 1;
-					 #5 IRin <= 0; MDRout <= 0; 
-            end
-            T4: begin
-					 //AND <= 1; RZin <= 1;
-					 //#5 RYin <= 0; GPRout[2] <= 0; GPRout[4] <= 1;
-					 ADD <= 1; RZin <= 1; Cout <= 1;
-					 #5 RYin <= 0; Grb <= 0; BAout <= 0;
-            end
+				T3: begin
+					Gra <= 1; Rin <= 1;
+					#5 MDRout <= 0; IRin <= 0;Cout <= 1;
+				end
+				T4: begin 
+					MARin <= 1; IncPC <= 1; RZin <= 1;
+					#5 Gra <= 0; Rin <= 0; Cout <= 0; PCout <= 1; preload_reg <= 1;
+				end
             T5: begin
-					 //GPRin[5] <= 1;
-					 //#5 AND <= 0; RZin <= 0; GPRout[4] <= 0; RZout <= 1;
-					 //HILOin <= 1;
+					 RYin <= 1; Grb <= 1; 
+					 #5 IRin <= 0; MDRout <= 0; BAout <= 1;
+            end
+            T6: begin
+					 ADD <= 1; RZin <= 1; 
+					 #5 RYin <= 0; Grb <= 0; BAout <= 0; Cout <= 1;
+            end
+            T7: begin
 					 MARin <= 1;
 					 #5 ADD <= 0; RZin <= 0; RZout <= 1; Cout <= 0;
             end
-				T6: begin
+				T8: begin
 					 Read <= 1; MDRin <= 1;
 					 #5 MARin <= 0; RZout <= 0;
             end
-				T7: begin
+				T9: begin
 					 Gra <= 1; Rin <= 1;
-					 #5 MDRin <= 0; MDRout <= 1;
+					 #5 MDRin <= 0; MDRout <= 1; Read <= 0;
             end
         endcase
     end
