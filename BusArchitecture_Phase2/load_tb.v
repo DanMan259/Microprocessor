@@ -1,6 +1,5 @@
 // Load tb
 
-// This file does AND R5, R2, R4
 `timescale 1ns/10ps
 module load_tb;
 
