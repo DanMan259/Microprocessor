@@ -9,6 +9,10 @@ module con_ff  #(parameter BITS = 32)(
 
 	reg con_d;
 	
+	initial begin 
+		Q <= 0;
+	end
+	
    always @ (bus, IR_C2) begin
 		case(IR_C2)
 			2'b00: con_d <= (bus == 32'h00000000)? 1'b1 : 1'b0;

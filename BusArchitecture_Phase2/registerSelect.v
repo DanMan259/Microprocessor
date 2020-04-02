@@ -22,11 +22,13 @@
 16 - pc
 17 - rZ (LOW/HIGH)
 18 - LO/HI
-20 - MDR
-21 - INPUT 
+19 - MDR
+20 - INPUT 
+21 - c_sign_extended
+22 - INTERHI/INTERLO
 */
 
-module registerSelect #(parameter BITS = 32, REGISTERS = 21)(
+module registerSelect #(parameter BITS = 32, REGISTERS = 23)(
 			input [BITS * REGISTERS - 1 : 0] registerStream,
 			input [REGISTERS - 1 : 0] registerSelect,
 			input BAOut,
