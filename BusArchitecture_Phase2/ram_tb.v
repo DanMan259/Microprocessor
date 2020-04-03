@@ -13,7 +13,7 @@ module ram_tb;
 	reg clk;
 	wire [BITS-1:0] dataOut;
 	
-	ram2 #(.BITS(BITS), .ADDR(ADDR), .RAMSIZE(RAMSIZE)) ram_inst(dataIn, read, write, address, clk, dataOut);
+	ram #(.BITS(BITS), .ADDR(ADDR), .RAMSIZE(RAMSIZE)) ram_inst(dataIn, read, write, address, clk, dataOut);
 	
 	initial
     begin
@@ -36,7 +36,6 @@ module ram_tb;
 		dataIn <= 'h5;
 		write <= 0;
 		read <= 1;
-		address <= 'h0;
 	 end
 	
 endmodule
