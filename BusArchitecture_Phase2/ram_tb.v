@@ -36,7 +36,6 @@ module ram_tb;
 		dataIn <= 'h5;
 		write <= 0;
 		read <= 1;
-		address <= 'h0;
 	 end
 	
 endmodule
